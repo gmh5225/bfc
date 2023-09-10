@@ -27,8 +27,25 @@ int main(int argc, char** argv)
 
         file.close();
 
-        Lexer lexer = Lexer(source);
-        lexer.lex();
-        
+        std::vector<Token> tokens;
+
+        // for each character in source, print it
+        for (char c : source) {
+                TokenKind current = lex(c);
+                if (current == TOKEN_CHAR_AS_COMMENT) {
+                        continue;
+                }
+                tokens.push_back(
+                        Token {
+                                current,
+                                c
+                        }
+                );
+        }
+
+        for (Token t : tokens) {
+                printf("Token: %d <%c>\n", t.kind, t.value);
+        }
+
         return 0;
 }

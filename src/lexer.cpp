@@ -3,31 +3,39 @@
 #include <cstring>
 #include <stdio.h>
 
-Lexer::Lexer(std::string source) {
-    this->source = source;
-    this->current_line = 1;
-    this->current_column = 1;
-    this->current_char = source[0];
-}
-
-void Lexer::advance() {
-    if (this->current_char == '\n') {
-        this->current_line++;
-        this->current_column = 1;
-    } else {
-        this->current_column++;
-    }
-
-    this->current_char = this->source[this->current_column - 1];
-}
-
-std::vector<Token> Lexer::lex() {
-
-    std::vector<Token> tokens;
-
-    // for each character in source
-    for (int i = 0; i < this->source.length(); i++) {
-        // catch segfaults
-        printf("%c", this->source[i]);
+TokenKind lex(char src) {
+    switch (src)
+    {
+        // Brainfuck syntax
+        case '>':
+            return TokenKind::TOKEN_INCREMENT_POINTER;
+            break;
+        case '<':
+            return TokenKind::TOKEN_DECREMENT_POINTER;
+            break;
+        case '+':
+            return TokenKind::TOKEN_INCREMENT_VALUE;
+            break;
+        case '-':
+            return TokenKind::TOKEN_DECREMENT_VALUE;
+            break;
+        case '.':
+            return TokenKind::TOKEN_OUTPUT_VALUE;
+            break;
+        case ',':
+            return TokenKind::TOKEN_INPUT_VALUE;
+            break;
+        case '[':
+            return TokenKind::TOKEN_LOOP_START;
+            break;
+        case ']':
+            return TokenKind::TOKEN_LOOP_END;
+            break;
+        case '\0':
+            return TokenKind::TOKEN_EOF;
+            break;
+        default:
+            return TokenKind::TOKEN_CHAR_AS_COMMENT;
+            break;
     }
 }

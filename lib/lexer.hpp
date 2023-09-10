@@ -6,17 +6,6 @@
 #include <string>
 #include <vector>
 
-class Lexer {
-    private:
-        int current_line;
-        int current_column;
-        char current_char;
-        std::string source;
-
-    public:
-        Lexer(std::string source);
-        void advance();
-        std::vector<Token> lex();
-};
+TokenKind lex(char src);
 
 #endif // LEXER_HPP
